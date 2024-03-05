@@ -2,23 +2,29 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 
 function ReactHookForm() {
-  const { register, handleSubmit, setValue, getValues } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm();
   const [checkedAll, setCheckedAll] = useState(true);
   const [selectAll, setSelectAll] = useState(true);
 
   const onSubmit = (data) => alert(JSON.stringify(data));
 
   const handleAcceptAll = () => {
-    setValue("1", checkedAll);
-    setValue("2", checkedAll);
-    setValue("3", checkedAll);
-    setValue("4", checkedAll);
+    setValue("first", checkedAll);
+    setValue("second", checkedAll);
+    setValue("third", checkedAll);
+    setValue("fourth", checkedAll);
     setCheckedAll(!checkedAll);
   };
 
   const handleSelectAll = () => {
-    setValue("3", selectAll);
-    setValue("4", selectAll);
+    setValue("third", selectAll);
+    setValue("fourth", selectAll);
     setSelectAll(!selectAll);
   };
 
@@ -28,71 +34,64 @@ function ReactHookForm() {
         <label>
           Accept all:
           <input name="acceptAll" type="checkbox" onChange={handleAcceptAll} />
-          {/* tu też chcę mieć errora  */}
         </label>
         <br />
         <label>
+          {errors.first && <p className="error"> Nie wyrażono zgody</p>}
           Checkbox_1:
           <input
             type="checkbox"
-            {...register("1", {
+            {...register("first", {
               required: true,
-              message: "Zaraz wyrzucę komputer przez okno",
+              message: "kurwa",
             })}
-            onChange={() => setValue("1", !getValues("1"))}
+            onChange={() => setValue("first", !getValues("first"))}
           />
         </label>
         <br />
         <label>
+          {errors.second && <p className="error"> Nie wyrażono zgody</p>}
           Checkbox_2:
           <input
             type="checkbox"
-            {...register("2", {
+            {...register("second", {
               required: true,
-              message: "Zaraz wyrzucę komputer przez okno",
             })}
-            onChange={() => setValue("2", !getValues("2"))}
+            onChange={() => setValue("second", !getValues("second"))}
           />
         </label>
         <br />
         <label className="select2">
           Select all:
           <input name="checkAll" type="checkbox" onChange={handleSelectAll} />
-          {/* tu też chcę mieć errora  */}
         </label>
         <br />
         <label className="select2">
+          {errors.third && <p className="error"> Nie wyrażono zgody</p>}
           Checkbox_3:
           <input
             type="checkbox"
-            {...register("3", {
+            {...register("third", {
               required: true,
-              message: "Zaraz wyrzucę komputer przez okno",
             })}
-            onChange={() => setValue("3", !getValues("3"))}
+            onChange={() => setValue("third", !getValues("third"))}
           />
         </label>
         <br />
         <label className="select2">
+          {errors.fourth && <p className="error"> Nie wyrażono zgody</p>}
           Checkbox_4:
           <input
             type="checkbox"
-            {...register("4", {
+            {...register("fourth", {
               required: true,
-              message: "Zaraz wyrzucę komputer przez okno",
             })}
-            onChange={() => setValue("4", !getValues("4"))}
+            onChange={() => setValue("fourth", !getValues("fourth"))}
           />
         </label>
         <br />
         <input type="submit" className="select2" />
       </form>
-      <div className="text">
-        <p>- errory nie działają</p>
-        <p>- nie mogę zaznaczyć `select all`` klikając `accept all`</p>
-        <p>- nie działa submit przy JEDYNIE zaznaczonym `select all`` </p>
-        <p>- errory też chcę mieć przy `accept all`` i `select all`</p>
-      </div>
     </div>
   );
 }
